@@ -5,6 +5,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.widget.GridLayout
+import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
@@ -12,6 +13,7 @@ import androidx.core.content.ContextCompat
 import androidx.core.view.children
 
 const val GAME_STATE = "gameState"
+
 class MainActivity : AppCompatActivity() {
 
     private lateinit var game: LightsOutGame
@@ -49,6 +51,12 @@ class MainActivity : AppCompatActivity() {
         outState.putString(GAME_STATE, game.state)
     }
 
+    private fun button(text: String, color: Int): TextView {
+        val button = TextView(this)
+        button.text = text
+        button.setBackgroundColor(color)
+        return button
+    }
 
     private fun startGame() {
         game.newGame()
@@ -56,7 +64,6 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun onLightButtonClick(view: View) {
-
         // Find the button's row and col
         val buttonIndex = lightGridLayout.indexOfChild(view)
         val row = buttonIndex / GRID_SIZE
@@ -72,19 +79,18 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setButtonColors() {
-
-        // Set all buttons' background color
+        // Set all buttons' background color and visible text
         for (buttonIndex in 0 until lightGridLayout.childCount) {
-            val gridButton = lightGridLayout.getChildAt(buttonIndex)
+            val gridButton = lightGridLayout.getChildAt(buttonIndex) as TextView
 
             // Find the button's row and col
             val row = buttonIndex / GRID_SIZE
             val col = buttonIndex % GRID_SIZE
 
-            if (game.isLightOn(row, col)) {
-                gridButton.setBackgroundColor(lightOnColor)
-            } else {
-                gridButton.setBackgroundColor(lightOffColor)
+            val isLightOn = game.isLightOn(row, col)
+            gridButton.apply {
+                setBackgroundColor(if (isLightOn) lightOnColor else lightOffColor)
+                text = if (isLightOn) getString(R.string.button_on) else getString(R.string.button_off)
             }
         }
     }
@@ -114,5 +120,4 @@ class MainActivity : AppCompatActivity() {
             setButtonColors()
         }
     }
-
 }
