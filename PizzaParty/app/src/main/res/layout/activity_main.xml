@@ -1,0 +1,118 @@
+<!--Ryo Fujimura -->
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.zybooks.pizzaparty.MainActivity">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Number of people?"
+        android:textSize="24sp"
+        android:labelFor="@id/num_attend_edit_text" />
+
+    <EditText
+        android:id="@+id/num_attend_edit_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:minHeight="48dp"
+        android:inputType="number"
+        android:ems="5"
+        android:importantForAutofill="no" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:text="How hungry?"
+        android:textSize="24sp"
+        android:labelFor="@id/hungry_radio_group" />
+
+    <RadioGroup
+        android:id="@+id/hungry_radio_group"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <RadioButton
+            android:id="@+id/light_radio_button"
+            android:text="Light"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <RadioButton
+            android:id="@+id/medium_radio_button"
+            android:text="Medium"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:checked="true" />
+        <RadioButton
+            android:id="@+id/ravenous_radio_button"
+            android:text="Ravenous"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </RadioGroup>
+
+    <TextView
+        android:id="@+id/num_pizzas_text_view"
+        android:text="Total pizzas: ?"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:textSize="24sp"/>
+
+    <Button
+        android:id="@+id/calc_button"
+        android:text="Calculate"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:onClick="calculateClick" />
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/pizza"/>
+</LinearLayout>
+
+
+<!--<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"-->
+<!--    xmlns:tools="http://schemas.android.com/tools"-->
+<!--    android:id="@+id/activity_main"-->
+<!--    android:layout_width="match_parent"-->
+<!--    android:layout_height="match_parent"-->
+<!--    tools:context="com.zybooks.pizzaparty.MainActivity">-->
+<!--&lt;!&ndash;-->
+<!--    <ImageView-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="match_parent"-->
+<!--        android:background="@drawable/pizza"/>-->
+<!--&ndash;&gt;-->
+<!--    <TextView-->
+<!--        android:id="@+id/num_people_label"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:text="Number of people?"-->
+<!--        android:textSize="24sp"-->
+<!--        android:labelFor="@id/num_attend_edit_text"-->
+<!--        android:layout_marginBottom="8dp"-->
+<!--        app:layout_constraintBottom_toTopOf="@id/num_attend_edit_text"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintEnd_toStartOf="@id/num_attend_edit_text"-->
+<!--        app:layout_constraintBaseline_toBaselineOf="@id/num_attend_edit_text"/>-->
+
+<!--    <EditText-->
+<!--        android:id="@+id/num_attend_edit_text"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:minHeight="48dp"-->
+<!--        android:inputType="number"-->
+<!--        android:ems="5"-->
+<!--        android:importantForAutofill="no"-->
+<!--        app:layout_constraintTop_toBottomOf="@id/num_people_label"-->
+<!--        app:layout_constraintStart_toEndOf="@id/num_people_label"-->
+<!--        app:layout_constraintEnd_toEndOf="parent" />-->
+
+<!--</androidx.constraintlayout.widget.ConstraintLayout>-->
