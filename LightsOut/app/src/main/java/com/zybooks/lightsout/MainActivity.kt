@@ -1,10 +1,12 @@
 package com.zybooks.lightsout
 
+import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.widget.GridLayout
 import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.core.view.children
@@ -16,10 +18,12 @@ class MainActivity : AppCompatActivity() {
     private lateinit var lightGridLayout: GridLayout
     private var lightOnColor = 0
     private var lightOffColor = 0
+    private var lightOnColorId = 0
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-
+        lightOnColorId = R.color.yellow
         lightGridLayout = findViewById(R.id.light_grid)
 
         // Add the same click handler to all grid buttons
@@ -92,6 +96,23 @@ class MainActivity : AppCompatActivity() {
     fun onHelpClick(view: View) {
         val intent = Intent(this, HelpActivity::class.java)
         startActivity(intent)
+    }
+
+    fun onChangeColorClick(view: View) {
+        // Send the current color ID to ColorActivity
+        val intent = Intent(this, ColorActivity::class.java)
+        intent.putExtra(EXTRA_COLOR, lightOnColorId)
+        colorResultLauncher.launch(intent)
+    }
+
+    private val colorResultLauncher = registerForActivityResult(
+        ActivityResultContracts.StartActivityForResult()) { result ->
+        if (result.resultCode == Activity.RESULT_OK) {
+            // Create the "on" button color based on the chosen color ID from ColorActivity
+            lightOnColorId = result.data!!.getIntExtra(EXTRA_COLOR, R.color.yellow)
+            lightOnColor = ContextCompat.getColor(this, lightOnColorId)
+            setButtonColors()
+        }
     }
 
 }
