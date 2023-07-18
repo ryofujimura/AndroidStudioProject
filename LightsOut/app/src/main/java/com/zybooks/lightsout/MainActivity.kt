@@ -1,5 +1,6 @@
 package com.zybooks.lightsout
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.widget.GridLayout
@@ -8,14 +9,13 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.core.view.children
 
-
+const val GAME_STATE = "gameState"
 class MainActivity : AppCompatActivity() {
 
     private lateinit var game: LightsOutGame
     private lateinit var lightGridLayout: GridLayout
     private var lightOnColor = 0
     private var lightOffColor = 0
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -31,8 +31,20 @@ class MainActivity : AppCompatActivity() {
         lightOffColor = ContextCompat.getColor(this, R.color.black)
 
         game = LightsOutGame()
-        startGame()
+
+        if (savedInstanceState == null) {
+            startGame()
+        } else {
+            game.state = savedInstanceState.getString(GAME_STATE)!!
+            setButtonColors()
+        }
     }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        outState.putString(GAME_STATE, game.state)
+    }
+
 
     private fun startGame() {
         game.newGame()
@@ -76,4 +88,10 @@ class MainActivity : AppCompatActivity() {
     fun onNewGameClick(view: View) {
         startGame()
     }
+
+    fun onHelpClick(view: View) {
+        val intent = Intent(this, HelpActivity::class.java)
+        startActivity(intent)
+    }
+
 }

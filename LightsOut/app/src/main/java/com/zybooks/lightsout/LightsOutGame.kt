@@ -47,4 +47,25 @@ class LightsOutGame {
             }
             return true
         }
+
+    var state: String
+        get() {
+            val boardString = StringBuilder()
+            for (row in 0 until GRID_SIZE) {
+                for (col in 0 until GRID_SIZE) {
+                    val value = if (lightsGrid[row][col]) 'T' else 'F'
+                    boardString.append(value)
+                }
+            }
+            return boardString.toString()
+        }
+        set(value) {
+            var index = 0
+            for (row in 0 until GRID_SIZE) {
+                for (col in 0 until GRID_SIZE) {
+                    lightsGrid[row][col] = value[index] == 'T'
+                    index++
+                }
+            }
+        }
 }
