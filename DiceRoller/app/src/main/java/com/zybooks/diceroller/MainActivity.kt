@@ -3,12 +3,16 @@ package com.zybooks.diceroller
 import android.os.Bundle
 import android.os.CountDownTimer
 import android.view.ContextMenu
+import android.view.GestureDetector
 import android.view.Menu
 import android.view.MenuItem
+import android.view.MotionEvent
 import android.view.View
 import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
+import androidx.core.view.GestureDetectorCompat
+import kotlin.math.abs
 
 const val MAX_DICE = 3
 
@@ -24,6 +28,7 @@ class MainActivity : AppCompatActivity(),
     private var timerLength = 2000L
     private var selectedDie = 0
     private var initTouchX = 0
+    private lateinit var gestureDetector: GestureDetectorCompat
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -38,15 +43,39 @@ class MainActivity : AppCompatActivity(),
 
         // Create list of ImageViews
         diceImageViewList = mutableListOf(
-            findViewById(R.id.dice1), findViewById(R.id.dice2), findViewById(R.id.dice3))
+            findViewById(R.id.dice1), findViewById(R.id.dice2), findViewById(R.id.dice3)
+        )
+        showDice()
 
-        // Register context menus for all dice and tag each die
         for (i in 0 until diceImageViewList.size) {
             registerForContextMenu(diceImageViewList[i])
             diceImageViewList[i].tag = i
         }
+        // Moving finger left or right changes dice number
+        diceImageViewList[0].setOnTouchListener { v, event ->
+            var returnVal = true
+            when (event.action) {
+                MotionEvent.ACTION_DOWN -> {
+                    initTouchX = event.x.toInt()
+                }
+                MotionEvent.ACTION_MOVE -> {
+                    val x = event.x.toInt()
 
-        showDice()
+                    // See if movement is at least 20 pixels
+                    if (abs(x - initTouchX) >= 20) {
+                        if (x > initTouchX) {
+                            diceList[0].number++
+                        } else {
+                            diceList[0].number--
+                        }
+                        showDice()
+                        initTouchX = x
+                    }
+                }
+                else -> returnVal = false
+            }
+            returnVal
+        }
     }
     override fun onCreateContextMenu(menu: ContextMenu?, v: View?, menuInfo: ContextMenu.ContextMenuInfo?) {
         super.onCreateContextMenu(menu, v, menuInfo)
