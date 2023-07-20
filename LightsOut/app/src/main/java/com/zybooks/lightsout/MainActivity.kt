@@ -1,3 +1,5 @@
+// Ryo Fujimura
+
 package com.zybooks.lightsout
 
 import android.app.Activity
