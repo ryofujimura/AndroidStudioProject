@@ -1,5 +1,6 @@
 package com.zybooks.diceroller
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.os.CountDownTimer
 import android.view.ContextMenu
@@ -31,6 +32,7 @@ class MainActivity : AppCompatActivity(),
     private lateinit var gestureDetector: GestureDetectorCompat
 
 
+    @SuppressLint("ClickableViewAccessibility")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -76,6 +78,24 @@ class MainActivity : AppCompatActivity(),
             }
             returnVal
         }
+        gestureDetector = GestureDetectorCompat(this,
+            object : GestureDetector.SimpleOnGestureListener() {
+                override fun onDown(e: MotionEvent): Boolean {
+                    return true
+                }
+
+                override fun onFling(
+                    e1: MotionEvent,
+                    e2: MotionEvent,
+                    velocityX: Float,
+                    velocityY: Float
+                ): Boolean {
+                    rollDice()
+                    return true
+                }
+            }
+        )
+
     }
     override fun onCreateContextMenu(menu: ContextMenu?, v: View?, menuInfo: ContextMenu.ContextMenuInfo?) {
         super.onCreateContextMenu(menu, v, menuInfo)
