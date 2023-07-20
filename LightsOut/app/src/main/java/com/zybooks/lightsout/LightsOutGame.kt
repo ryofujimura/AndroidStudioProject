@@ -35,6 +35,14 @@ class LightsOutGame {
             lightsGrid[row][col + 1] = !lightsGrid[row][col + 1]
         }
     }
+    // Inside the LightsOutGame class
+    fun turnOffAllLights() {
+        for (row in 0 until GRID_SIZE) {
+            for (col in 0 until GRID_SIZE) {
+                lightsGrid[row][col] = false
+            }
+        }
+    }
 
     val isGameOver: Boolean
         get() {

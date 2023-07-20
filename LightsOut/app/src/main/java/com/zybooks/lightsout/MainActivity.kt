@@ -21,6 +21,7 @@ class MainActivity : AppCompatActivity() {
     private var lightOnColor = 0
     private var lightOffColor = 0
     private var lightOnColorId = 0
+//    private lateinit var game: LightsOutGame
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -43,6 +44,16 @@ class MainActivity : AppCompatActivity() {
         } else {
             game.state = savedInstanceState.getString(GAME_STATE)!!
             setButtonColors()
+        }
+
+        // Find the button at row 0 and column 0
+        val topLeftButton = lightGridLayout.getChildAt(0) as TextView
+
+        // Add the long-click callback for the top-left button
+        topLeftButton.setOnLongClickListener {
+            game.turnOffAllLights()
+            setButtonColors()
+            true // Return true to indicate that the long-click event is consumed
         }
     }
 
