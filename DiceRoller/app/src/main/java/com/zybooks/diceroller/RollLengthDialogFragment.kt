@@ -7,7 +7,6 @@ import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.DialogFragment
 
 class RollLengthDialogFragment : DialogFragment() {
-
     interface OnRollLengthSelectedListener {
         fun onRollLengthClick(which: Int)
     }

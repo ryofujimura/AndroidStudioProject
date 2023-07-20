@@ -2,6 +2,7 @@ package com.zybooks.diceroller
 
 import android.os.Bundle
 import android.os.CountDownTimer
+import android.view.ContextMenu
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
@@ -11,7 +12,9 @@ import androidx.core.content.ContextCompat
 
 const val MAX_DICE = 3
 
-class MainActivity : AppCompatActivity(),RollLengthDialogFragment.OnRollLengthSelectedListener {
+class MainActivity : AppCompatActivity(),
+    RollLengthDialogFragment.OnRollLengthSelectedListener {
+
 
     private var numVisibleDice = MAX_DICE
     private lateinit var diceList: MutableList<Dice>
@@ -20,6 +23,8 @@ class MainActivity : AppCompatActivity(),RollLengthDialogFragment.OnRollLengthSe
     private var timer: CountDownTimer? = null
     private var timerLength = 2000L
     private var selectedDie = 0
+    private var initTouchX = 0
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -35,14 +40,43 @@ class MainActivity : AppCompatActivity(),RollLengthDialogFragment.OnRollLengthSe
         diceImageViewList = mutableListOf(
             findViewById(R.id.dice1), findViewById(R.id.dice2), findViewById(R.id.dice3))
 
-        showDice()
         // Register context menus for all dice and tag each die
         for (i in 0 until diceImageViewList.size) {
             registerForContextMenu(diceImageViewList[i])
             diceImageViewList[i].tag = i
         }
 
+        showDice()
     }
+    override fun onCreateContextMenu(menu: ContextMenu?, v: View?, menuInfo: ContextMenu.ContextMenuInfo?) {
+        super.onCreateContextMenu(menu, v, menuInfo)
+
+        // Save which die is selected
+        selectedDie = v?.tag as Int
+
+        menuInflater.inflate(R.menu.context_menu, menu)
+    }
+
+    override fun onContextItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            R.id.add_one -> {
+                diceList[selectedDie].number++
+                showDice()
+                true
+            }
+            R.id.subtract_one -> {
+                diceList[selectedDie].number--
+                showDice()
+                true
+            }
+            R.id.roll -> {
+                rollDice()
+                true
+            }
+            else -> super.onContextItemSelected(item)
+        }
+    }
+
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.appbar_menu, menu)
         optionsMenu = menu!!
@@ -63,7 +97,6 @@ class MainActivity : AppCompatActivity(),RollLengthDialogFragment.OnRollLengthSe
         // Convert to milliseconds
         timerLength = 1000L * (which + 1)
     }
-
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
 
         // Determine which menu option was chosen
@@ -100,6 +133,7 @@ class MainActivity : AppCompatActivity(),RollLengthDialogFragment.OnRollLengthSe
             else -> super.onOptionsItemSelected(item)
         }
     }
+
     private fun rollDice() {
         optionsMenu.findItem(R.id.action_stop).isVisible = true
         timer?.cancel()
@@ -119,6 +153,7 @@ class MainActivity : AppCompatActivity(),RollLengthDialogFragment.OnRollLengthSe
         }.start()
     }
 
+
     private fun changeDiceVisibility(numVisible: Int) {
         numVisibleDice = numVisible
 
@@ -132,4 +167,5 @@ class MainActivity : AppCompatActivity(),RollLengthDialogFragment.OnRollLengthSe
             diceImageViewList[i].visibility = View.GONE
         }
     }
+
 }
