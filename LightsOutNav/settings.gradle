@@ -12,5 +12,5 @@ dependencyResolutionManagement {
         mavenCentral()
     }
 }
-rootProject.name = "Lights Out Nav"
+rootProject.name = "LightsOutNav"
 include ':app'
