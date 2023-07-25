@@ -103,6 +103,10 @@ class MainActivity : AppCompatActivity() {
             val isLightOn = game.isLightOn(row, col)
             gridButton.apply {
                 setBackgroundColor(if (isLightOn) lightOnColor else lightOffColor)
+                // Update the text color based on the light state
+                val textColor = if (isLightOn) ContextCompat.getColor(this@MainActivity, R.color.black) else ContextCompat.getColor(this@MainActivity, R.color.light_grey)
+                setTextColor(textColor)
+
                 text = if (isLightOn) getString(R.string.button_on) else getString(R.string.button_off)
             }
         }
