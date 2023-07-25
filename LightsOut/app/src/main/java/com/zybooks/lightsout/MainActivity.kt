@@ -37,7 +37,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         lightOnColor = ContextCompat.getColor(this, R.color.yellow)
-        lightOffColor = ContextCompat.getColor(this, R.color.black)
+        lightOffColor = ContextCompat.getColor(this, R.color.blue_500)
 
         game = LightsOutGame()
 
