@@ -1,44 +1,91 @@
+
+
 package com.zybooks.thebanddatabase
 
+import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.LinearLayout
+import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.navigation.Navigation
+import androidx.recyclerview.widget.DividerItemDecoration
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 
 class ListFragment : Fragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View {
         val rootView = inflater.inflate(R.layout.fragment_list, container, false)
-        val layout = rootView as LinearLayout
 
-        // Create the buttons using the band names and ids from BandRepository
-        val bandList = BandRepository.getInstance(requireContext()).bandList
-        for (band in bandList) {
-            val button = Button(context)
-            val layoutParams = LinearLayout.LayoutParams(
-                LinearLayout.LayoutParams.MATCH_PARENT,
-                LinearLayout.LayoutParams.WRAP_CONTENT
-            )
-            layoutParams.setMargins(0, 0, 0, 10) // 10px bottom margin
-            button.layoutParams = layoutParams
+        // Click listener for the RecyclerView
+        val onClickListener = View.OnClickListener { itemView: View ->
 
-            // Display band's name on button
-            button.text = band.name
+            // Create fragment arguments containing the selected band ID
+            val selectedBandId = itemView.tag as Int
+            val args = Bundle()
+            args.putInt(ARG_BAND_ID, selectedBandId)
 
-            // Navigate to detail screen when clicked
-            button.setOnClickListener { buttonView: View ->
-                Navigation.findNavController(buttonView).navigate(R.id.show_item_detail)
+            val detailFragContainer = rootView.findViewById<View>(R.id.detail_frag_container)
+            if (detailFragContainer == null) {
+                // Replace list with details
+                Navigation.findNavController(itemView).navigate(R.id.show_item_detail, args)
+            } else {
+                // Show details on the right
+                Navigation.findNavController(detailFragContainer).navigate(R.id.fragment_detail, args)
             }
-
-            // Add button to the LinearLayout
-            layout.addView(button)
         }
+
+        // Send bands to RecyclerView
+        val recyclerView = rootView.findViewById<RecyclerView>(R.id.band_list)
+        val bands = BandRepository.getInstance(requireContext()).bandList
+        recyclerView.adapter = BandAdapter(bands, onClickListener)
+
+        // Add the DividerItemDecoration to the RecyclerView
+        val itemDecoration: DividerItemDecoration =
+            DividerItemDecoration(requireContext(), LinearLayoutManager.VERTICAL)
+        val dividerDrawable: Drawable? = requireContext().getDrawable(R.drawable.divider_line)
+        itemDecoration.setDrawable(dividerDrawable!!)
+        recyclerView.addItemDecoration(itemDecoration)
 
         return rootView
     }
+
+    private class BandAdapter(private val bandList: List<Band>,
+                              private val onClickListener: View.OnClickListener) :
+        RecyclerView.Adapter<BandHolder>() {
+
+        override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BandHolder {
+            val layoutInflater = LayoutInflater.from(parent.context)
+            return BandHolder(layoutInflater, parent)
+        }
+
+        override fun onBindViewHolder(holder: BandHolder, position: Int) {
+            val band = bandList[position]
+            holder.bind(band)
+            holder.itemView.tag = band.id
+            holder.itemView.setOnClickListener(onClickListener)
+        }
+
+        override fun getItemCount(): Int {
+            return bandList.size
+        }
+    }
+
+    private class BandHolder(inflater: LayoutInflater, parent: ViewGroup?) :
+        RecyclerView.ViewHolder(inflater.inflate(R.layout.list_item_band, parent, false)) {
+
+        private val nameTextView: TextView
+
+        init {
+            nameTextView = itemView.findViewById(R.id.band_name)
+        }
+
+        fun bind(band: Band) {
+            nameTextView.text = band.name
+        }
+    }
 }
+

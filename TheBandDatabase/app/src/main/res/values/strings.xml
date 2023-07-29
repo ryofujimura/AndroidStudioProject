@@ -6,11 +6,39 @@
         <item>The Beatles</item>
         <item>Nirvana</item>
         <item>U2</item>
+        <item>band1</item>
+        <item>band2</item>
+        <item>band3</item>
+        <item>band4</item>
+        <item>band5</item>
+        <item>band6</item>
+        <item>band7</item>
+        <item>band8</item>
+        <item>band9</item>
+        <item>band10</item>
+        <item>band11</item>
+        <item>band12</item>
+        <item>band13</item>
+        <item>band14</item>
     </string-array>
 
     <string-array name="descriptions">
         <item>An English rock band that formed in Liverpool in 1960.</item>
         <item>An American rock band that formed in Washington in 1987.</item>
         <item>An Irish rock band from Dublin that formed in 1976.</item>
+        <item>band1 description</item>
+        <item>band2 description</item>
+        <item>band3 description</item>
+        <item>band4 description</item>
+        <item>band5 description</item>
+        <item>band6 description</item>
+        <item>band7 description</item>
+        <item>band8 description</item>
+        <item>band9 description</item>
+        <item>band10 description</item>
+        <item>band11 description</item>
+        <item>band12 description</item>
+        <item>band13 description</item>
+        <item>band14 description</item>
     </string-array>
 </resources>
