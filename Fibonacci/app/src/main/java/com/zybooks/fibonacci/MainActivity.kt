@@ -32,7 +32,7 @@ class MainActivity : AppCompatActivity() {
 
         // Find the nth Fibonacci number using the given number
         val num = numberEditText.text.toString().toLongOrNull()
-        val fibNumber = fibonacci(num)
+        val fibNumber = fibonacci(num ?: 0)
 
         // Show the result with commas in the right place
         resultTextView.text = "Result:" +
@@ -57,7 +57,7 @@ class MainActivity : AppCompatActivity() {
         val thread = Thread {
 
             // Find the Fibonacci number
-            val fibNumber = fibonacci(num)
+            val fibNumber = fibonacci(num ?: 0)
 
             // UI should only be updated by main thread
             runOnUiThread {
