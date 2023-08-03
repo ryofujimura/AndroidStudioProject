@@ -12,11 +12,12 @@ import android.animation.ObjectAnimator
 
 class MainActivity : AppCompatActivity() {
 
+
     private val dotsGame = DotsGame.getInstance()
     private lateinit var dotsView: DotsView
     private lateinit var movesRemainingTextView: TextView
     private lateinit var scoreTextView: TextView
-
+    private lateinit var soundEffects: SoundEffects
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -28,8 +29,12 @@ class MainActivity : AppCompatActivity() {
         findViewById<Button>(R.id.new_game_button).setOnClickListener { newGameClick() }
 
         dotsView.setGridListener(gridListener)
-
+        soundEffects = SoundEffects.getInstance(applicationContext)
         startNewGame()
+    }
+    override fun onDestroy() {
+        super.onDestroy()
+        soundEffects.release()
     }
 
     private val gridListener = object : DotsGridListener {
@@ -37,8 +42,21 @@ class MainActivity : AppCompatActivity() {
             // Ignore selections when game is over
             if (dotsGame.isGameOver) return
 
-            // Add/remove dot to/from selected dots
+            // Ignore selections when game is over
+            if (dotsGame.isGameOver) return
+
+            // Play first tone when first dot is selected
+            if (status == DotSelectionStatus.First) {
+                soundEffects.resetTones()
+            }
+
+            // Select the dot and play the right tone
             val addStatus = dotsGame.processDot(dot)
+            if (addStatus == DotStatus.Added) {
+                soundEffects.playTone(true)
+            } else if (addStatus == DotStatus.Removed) {
+                soundEffects.playTone(false)
+            }
 
             // If done selecting dots then replace selected dots
             if (status === DotSelectionStatus.Last) {
@@ -60,6 +78,9 @@ class MainActivity : AppCompatActivity() {
             dotsGame.finishMove()
             dotsView.invalidate()
             updateMovesAndScore()
+            if (dotsGame.isGameOver) {
+                soundEffects.playGameOver()
+            }
         }
     }
 
