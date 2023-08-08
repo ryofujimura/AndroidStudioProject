@@ -9,6 +9,10 @@ import androidx.appcompat.app.AppCompatActivity
 import okhttp3.*
 import com.google.gson.Gson
 import java.io.IOException
+import android.content.Context
+import android.view.inputmethod.InputMethodManager
+import android.content.Intent
+
 
 class MainActivity : AppCompatActivity() {
 
@@ -28,9 +32,23 @@ class MainActivity : AppCompatActivity() {
         searchButton = findViewById(R.id.searchButton)
         restaurantListView = findViewById(R.id.restaurantListView)
 
+        // Your search button click listener
         searchButton.setOnClickListener {
             val location = locationEditText.text.toString()
             searchRestaurants(location)
+
+            // Hide the keyboard
+            val inputMethodManager = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+            inputMethodManager.hideSoftInputFromWindow(currentFocus?.windowToken, InputMethodManager.HIDE_NOT_ALWAYS)
+        }
+
+        // This is where you set the item click listener for the restaurantListView
+        restaurantListView.setOnItemClickListener { parent, view, position, id ->
+            val selectedRestaurant = (restaurantListView.adapter as ArrayAdapter<String>).getItem(position)
+
+            val intent = Intent(this, RestaurantDescriptionActivity::class.java)
+            intent.putExtra("selectedRestaurant", selectedRestaurant)
+            startActivity(intent)
         }
     }
 
