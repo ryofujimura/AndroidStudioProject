@@ -79,5 +79,5 @@ class MainActivity : AppCompatActivity() {
     }
 
     data class YelpApiResponse(val businesses: List<Business>)
-    data class Business(val name: String)
+    data class Business(val name: String, val address: String, val images: List<String>)
 }

@@ -10,13 +10,13 @@ class RestaurantDescriptionActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_restaurant_description)
 
-        val selectedRestaurant = intent.getSerializableExtra("selectedRestaurant") as MainActivity.Business
+        val selectedRestaurantName = intent.getStringExtra("selectedRestaurant")
 
         val restaurantNameTextView = findViewById<TextView>(R.id.restaurantNameTextView)
         val addressTextView = findViewById<TextView>(R.id.addressTextView)
 
-        restaurantNameTextView.text = selectedRestaurant.name
-        // addressTextView.text = selectedRestaurant.location.address
+        restaurantNameTextView.text = selectedRestaurantName
+        addressTextView.text = "Address goes here"
         // ... Set other views
     }
 }
