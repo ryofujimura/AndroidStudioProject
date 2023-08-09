@@ -1,4 +1,10 @@
+//restaurantListView.setOnItemClickListener { parent, view, position, id ->
+//    val intent = Intent(this, RestaurantDescriptionActivity::class.java)
+//    intent.putExtra("selectedRestaurantPosition", position)
+//    startActivity(intent)
+//}
 package com.zybooks.finalproject
+
 import android.os.Bundle
 import android.view.View
 import android.widget.ArrayAdapter
@@ -17,9 +23,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import com.bumptech.glide.Glide
 
-
 class MainActivity : AppCompatActivity() {
-
 
     private lateinit var locationEditText: EditText
     private lateinit var searchButton: Button
@@ -33,7 +37,6 @@ class MainActivity : AppCompatActivity() {
     private val client = OkHttpClient()
     private val gson = Gson()
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -42,12 +45,10 @@ class MainActivity : AppCompatActivity() {
         searchButton = findViewById(R.id.searchButton)
         restaurantListView = findViewById(R.id.restaurantListView)
 
-        // Your search button click listener
         searchButton.setOnClickListener {
             val location = locationEditText.text.toString()
             searchRestaurants(location)
 
-            // Hide the keyboard
             val inputMethodManager =
                 getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
             inputMethodManager.hideSoftInputFromWindow(
@@ -56,12 +57,18 @@ class MainActivity : AppCompatActivity() {
             )
         }
 
-        // This is where you set the item click listener for the restaurantListView
+        // Inside your onItemClick listener
         restaurantListView.setOnItemClickListener { parent, view, position, id ->
             val intent = Intent(this, RestaurantDescriptionActivity::class.java)
-            intent.putExtra("selectedRestaurantPosition", position)
+            val selectedRestaurant = restaurants.businesses[position]
+
+            intent.putExtra("selectedRestaurantName", selectedRestaurant.name)
+            intent.putExtra("selectedRestaurantImageUrl", selectedRestaurant.image_url)
+            // Add additional image URLs here if needed
+
             startActivity(intent)
         }
+
     }
 
     private fun searchRestaurants(location: String) {
@@ -75,22 +82,39 @@ class MainActivity : AppCompatActivity() {
         client.newCall(request).enqueue(object : Callback {
             override fun onResponse(call: Call, response: Response) {
                 val responseBody = response.body?.string()
-                val restaurants = gson.fromJson(responseBody, YelpApiResponse::class.java)
+                restaurants = gson.fromJson(responseBody, YelpApiResponse::class.java)
 
                 runOnUiThread {
-                    val adapter = object : ArrayAdapter<Business>(this@MainActivity, R.layout.list_item_restaurant, restaurants.businesses) {
-                        override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
-                            val itemView = layoutInflater.inflate(R.layout.list_item_restaurant, parent, false)
+                    val adapter = object : ArrayAdapter<Business>(
+                        this@MainActivity,
+                        R.layout.list_item_restaurant,
+                        restaurants.businesses
+                    ) {
+                        override fun getView(
+                            position: Int,
+                            convertView: View?,
+                            parent: ViewGroup
+                        ): View {
+                            val itemView =
+                                layoutInflater.inflate(
+                                    R.layout.list_item_restaurant,
+                                    parent,
+                                    false
+                                )
                             val restaurant = getItem(position)
 
-                            val restaurantNameTextView = itemView.findViewById<TextView>(R.id.restaurantNameTextView)
-                            val restaurantImageView = itemView.findViewById<ImageView>(R.id.restaurantImageView)
+                            val restaurantNameTextView =
+                                itemView.findViewById<TextView>(R.id.restaurantNameTextView)
+                            val restaurantImageView =
+                                itemView.findViewById<ImageView>(R.id.restaurantImageView)
 
                             if (restaurant != null) {
                                 restaurantNameTextView.text = restaurant.name
                             }
                             if (restaurant != null) {
-                                Glide.with(this@MainActivity).load(restaurant.image_url).into(restaurantImageView)
+                                Glide.with(this@MainActivity).load(restaurant.image_url).into(
+                                    restaurantImageView
+                                )
                             }
 
                             return itemView
