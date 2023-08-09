@@ -17,7 +17,7 @@ class RestaurantDescriptionActivity : AppCompatActivity() {
         // Retrieve additional image URLs if needed
 
         val restaurantNameTextView = findViewById<TextView>(R.id.restaurantNameTextView)
-        val restaurantImageView = findViewById<ImageView>(R.id.restaurantImageView1)
+        val restaurantImageView = findViewById<ImageView>(R.id.restaurantImageView)
         // Add additional image views here
 
         restaurantNameTextView.text = restaurantName
