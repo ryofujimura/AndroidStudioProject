@@ -2,10 +2,8 @@ package com.zybooks.finalproject
 
 import android.os.Bundle
 import android.widget.ImageView
-import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
-import com.google.gson.Gson
-import com.squareup.picasso.Picasso
+import com.bumptech.glide.Glide
 
 class RestaurantDescriptionActivity : AppCompatActivity() {
 
@@ -13,18 +11,22 @@ class RestaurantDescriptionActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_restaurant_description)
 
-        val selectedRestaurantJson = intent.getStringExtra("selectedRestaurant")
-        val selectedRestaurant = Gson().fromJson(selectedRestaurantJson, MainActivity.Business::class.java)
+        val selectedRestaurantPosition = intent.getIntExtra("selectedRestaurantPosition", -1)
 
-        val restaurantNameTextView = findViewById<TextView>(R.id.restaurantNameTextView)
-        val addressTextView = findViewById<TextView>(R.id.addressTextView)
-        val imageView1 = findViewById<ImageView>(R.id.imageView1)
-        val imageView2 = findViewById<ImageView>(R.id.imageView2)
-        val imageView3 = findViewById<ImageView>(R.id.imageView3)
+        if (selectedRestaurantPosition != -1) {
+            val selectedRestaurant = MainActivity.restaurants.businesses[selectedRestaurantPosition]
 
-        restaurantNameTextView.text = selectedRestaurant.name
-        addressTextView.text = selectedRestaurant.address
+            val restaurantImageView1 = findViewById<ImageView>(R.id.restaurantImageView1)
+            val restaurantImageView2 = findViewById<ImageView>(R.id.restaurantImageView2)
+            val restaurantImageView3 = findViewById<ImageView>(R.id.restaurantImageView3)
 
+            val imageUrls = selectedRestaurant.image_url // Assuming 'photos' is a list of image URLs
 
+            if (imageUrls.isNotEmpty()) {
+                Glide.with(this).load(imageUrls[0]).into(restaurantImageView1)
+                Glide.with(this).load(imageUrls[1]).into(restaurantImageView2)
+                Glide.with(this).load(imageUrls[2]).into(restaurantImageView3)
+            }
+        }
     }
 }
