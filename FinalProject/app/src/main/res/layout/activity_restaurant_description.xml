@@ -24,20 +24,11 @@
         android:layout_marginBottom="16dp"
         android:text="Restaurant Address" />
 
-    <TextView
-        android:id="@+id/descriptionTextView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/addressTextView"
-        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-        android:layout_marginTop="16dp"
-        android:text="Restaurant Description" />
-
     <ImageView
         android:id="@+id/imageView1"
         android:layout_width="match_parent"
         android:layout_height="200dp"
-        android:layout_below="@id/descriptionTextView"
+        android:layout_below="@id/addressTextView"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="16dp"
         android:scaleType="centerCrop"
