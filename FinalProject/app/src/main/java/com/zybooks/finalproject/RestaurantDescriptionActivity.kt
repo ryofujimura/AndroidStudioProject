@@ -23,5 +23,6 @@ class RestaurantDescriptionActivity : AppCompatActivity() {
         restaurantNameTextView.text = restaurantName
         Glide.with(this).load(restaurantImageUrl).into(restaurantImageView)
         // Load additional images using Glide here
+        overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left)
     }
 }

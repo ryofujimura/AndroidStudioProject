@@ -2,9 +2,10 @@
 //    val intent = Intent(this, RestaurantDescriptionActivity::class.java)
 //    intent.putExtra("selectedRestaurantPosition", position)
 //    startActivity(intent)
-//}
+// 110fzSdHM6bFShApZ7HVpEFw6hJwfNBiXlfp4lSL4u6GU64MJOJxLUOFkHx2VnezuCHHNtnTFbQPkuDjMkHabmHCV4tM2NV2UZRssuuFcJlqVXn9107TajsE8pu7YXYx
 package com.zybooks.finalproject
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.View
 import android.widget.ArrayAdapter
@@ -22,12 +23,14 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import com.bumptech.glide.Glide
+import android.widget.ProgressBar
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var locationEditText: EditText
     private lateinit var searchButton: Button
     private lateinit var restaurantListView: ListView
+    private lateinit var loadingProgressBar: ProgressBar
 
     companion object {
         lateinit var restaurants: YelpApiResponse
@@ -44,9 +47,11 @@ class MainActivity : AppCompatActivity() {
         locationEditText = findViewById(R.id.locationEditText)
         searchButton = findViewById(R.id.searchButton)
         restaurantListView = findViewById(R.id.restaurantListView)
+        loadingProgressBar = findViewById(R.id.loadingProgressBar)
 
         searchButton.setOnClickListener {
             val location = locationEditText.text.toString()
+            loadingProgressBar.visibility = View.VISIBLE
             searchRestaurants(location)
 
             val inputMethodManager =
@@ -67,6 +72,7 @@ class MainActivity : AppCompatActivity() {
             // Add additional image URLs here if needed
 
             startActivity(intent)
+            overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left)
         }
 
     }
@@ -90,6 +96,7 @@ class MainActivity : AppCompatActivity() {
                         R.layout.list_item_restaurant,
                         restaurants.businesses
                     ) {
+                        @SuppressLint("ViewHolder")
                         override fun getView(
                             position: Int,
                             convertView: View?,
@@ -102,11 +109,9 @@ class MainActivity : AppCompatActivity() {
                                     false
                                 )
                             val restaurant = getItem(position)
-
-                            val restaurantNameTextView =
-                                itemView.findViewById<TextView>(R.id.restaurantNameTextView)
                             val restaurantImageView =
                                 itemView.findViewById<ImageView>(R.id.restaurantImageView)
+                            val restaurantNameTextView = itemView.findViewById<TextView>(R.id.restaurantNameTextView)
 
                             if (restaurant != null) {
                                 restaurantNameTextView.text = restaurant.name
@@ -121,6 +126,8 @@ class MainActivity : AppCompatActivity() {
                         }
                     }
                     restaurantListView.adapter = adapter
+                    loadingProgressBar.visibility = View.GONE
+
                 }
             }
 
@@ -131,5 +138,5 @@ class MainActivity : AppCompatActivity() {
     }
 
     data class YelpApiResponse(val businesses: List<Business>)
-    data class Business(val name: String, val image_url: String)
+    data class Business(val name: String,val image_url: String)
 }

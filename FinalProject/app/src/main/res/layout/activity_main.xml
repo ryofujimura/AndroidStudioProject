@@ -8,10 +8,19 @@
 
     <EditText
         android:id="@+id/locationEditText"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_width="378dp"
+        android:layout_height="60dp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="16dp"
+        android:textSize="25sp"
         android:hint="Enter location" />
 
+    <ProgressBar
+        android:id="@+id/loadingProgressBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:visibility="gone" />
     <Button
         android:id="@+id/searchButton"
         android:layout_width="wrap_content"
@@ -26,15 +35,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/searchButton"
-        android:layout_marginTop="16dp" />
-
-    <Button
-        android:id="@+id/searchMoreButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Search More"
-        android:layout_below="@id/restaurantListView"
-        android:layout_centerHorizontal="true"
         android:layout_marginTop="16dp" />
 
 </RelativeLayout>
