@@ -3,7 +3,7 @@
 //    intent.putExtra("selectedRestaurantPosition", position)
 //    startActivity(intent)
 // 110fzSdHM6bFShApZ7HVpEFw6hJwfNBiXlfp4lSL4u6GU64MJOJxLUOFkHx2VnezuCHHNtnTFbQPkuDjMkHabmHCV4tM2NV2UZRssuuFcJlqVXn9107TajsE8pu7YXYx
-package com.zybooks.finalproject
+package com.zybooks.restaurantsearch
 
 import android.annotation.SuppressLint
 import android.os.Bundle

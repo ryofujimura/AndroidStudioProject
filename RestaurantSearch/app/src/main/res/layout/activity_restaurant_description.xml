@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="16dp"
+    tools:context=".RestaurantDescriptionActivity">
+
+    <TextView
+        android:id="@+id/restaurantNameTextView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textAppearance="@style/TextAppearance.AppCompat.Large"
+        android:textStyle="bold"
+        android:layout_marginBottom="8dp"
+        android:text="Restaurant Name" />
+
+    <ImageView
+        android:id="@+id/restaurantImageView1"
+        android:layout_width="384dp"
+        android:layout_height="441dp"
+        android:layout_below="@id/restaurantNameTextView"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="16dp"
+        android:scaleType="centerCrop"
+        tools:src="@drawable/placeholder_image" />
+
+</RelativeLayout>
