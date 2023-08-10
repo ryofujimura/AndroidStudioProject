@@ -1,5 +1,6 @@
+package com.zybooks.restaurantsearch
+
 // 110fzSdHM6bFShApZ7HVpEFw6hJwfNBiXlfp4lSL4u6GU64MJOJxLUOFkHx2VnezuCHHNtnTFbQPkuDjMkHabmHCV4tM2NV2UZRssuuFcJlqVXn9107TajsE8pu7YXYx
-package com.zybooks.finalproject
 
 import android.annotation.SuppressLint
 import android.os.Bundle
